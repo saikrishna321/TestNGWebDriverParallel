@@ -47,7 +47,7 @@ public class AppiumServerManager {
     }
 
     public String getRemoteWDHubIP() {
-        if(Capabilities.getInstance().getCapabilities().has("appiumServerUrl")) {
+        if (Capabilities.getInstance().getCapabilities().has("appiumServerUrl")) {
             return Capabilities.getInstance().getCapabilities().get("appiumServerUrl").toString();
         }
         return getAppiumUrl().toString();
