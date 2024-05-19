@@ -36,49 +36,59 @@ public class AppiumServerManager {
     }
 
     public void destroyAppiumNode() {
-        LOGGER.info("Shutting down Appium Server");
-        getAppiumDriverLocalService().stop();
-        if (getAppiumDriverLocalService().isRunning()) {
-            LOGGER.info("AppiumServer didn't shut... Trying to quit again....");
+        if (!Capabilities.getInstance().getCapabilities().has("appiumServerUrl")) {
+            LOGGER.info("Shutting down Appium Server");
             getAppiumDriverLocalService().stop();
+            if (getAppiumDriverLocalService().isRunning()) {
+                LOGGER.info("AppiumServer didn't shut... Trying to quit again....");
+                getAppiumDriverLocalService().stop();
+            }
         }
     }
 
     public String getRemoteWDHubIP() {
+        if(Capabilities.getInstance().getCapabilities().has("appiumServerUrl")) {
+            return Capabilities.getInstance().getCapabilities().get("appiumServerUrl").toString();
+        }
         return getAppiumUrl().toString();
     }
 
     public void startAppiumServer(String host) throws Exception {
-        LOGGER.info(LOGGER.getName() + "Starting Appium Server on Localhost");
-        new File(
-                System.getProperty("user.dir")
-                        + FileLocations.APPIUM_LOGS_DIRECTORY
-                        + "appium_logs.txt").getParentFile().mkdirs();
-        AppiumDriverLocalService appiumDriverLocalService;
-        AppiumServiceBuilder builder =
-                getAppiumServerBuilder(host)
-                        .withLogFile(new File(
-                                System.getProperty("user.dir")
-                                        + FileLocations.APPIUM_LOGS_DIRECTORY
-                                        + "appium_logs.txt"))
-                        .withIPAddress(host)
-                        .withTimeout(Duration.ofSeconds(60))
-                        .withArgument(() -> "--config", System.getProperty("user.dir")
-                                + FileLocations.SERVER_CONFIG)
-                        .withArgument(GeneralServerFlag.RELAXED_SECURITY)
-                        .usingAnyFreePort();
-        if (Capabilities.getInstance().getCapabilities().has("basePath")) {
-            if (!StringUtils.isBlank(getBasePath())) {
-                builder.withArgument(GeneralServerFlag.BASEPATH,getBasePath());
-            }
+        if (Capabilities.getInstance().getCapabilities().has("appiumServerUrl")) {
+            LOGGER.info(LOGGER.getName() + "Connecting to running appium server on "
+                    + Capabilities.getInstance().getCapabilities().get("appiumServerUrl"));
         } else {
-            builder.withArgument(GeneralServerFlag.BASEPATH,"/wd/hub");
+            LOGGER.info(LOGGER.getName() + "Starting Appium Server on Localhost");
+            new File(
+                    System.getProperty("user.dir")
+                            + FileLocations.APPIUM_LOGS_DIRECTORY
+                            + "appium_logs.txt").getParentFile().mkdirs();
+            AppiumDriverLocalService appiumDriverLocalService;
+            AppiumServiceBuilder builder =
+                    getAppiumServerBuilder(host)
+                            .withLogFile(new File(
+                                    System.getProperty("user.dir")
+                                            + FileLocations.APPIUM_LOGS_DIRECTORY
+                                            + "appium_logs.txt"))
+                            .withIPAddress(host)
+                            .withTimeout(Duration.ofSeconds(60))
+                            .withArgument(() -> "--config", System.getProperty("user.dir")
+                                    + FileLocations.SERVER_CONFIG)
+                            .withArgument(GeneralServerFlag.RELAXED_SECURITY)
+                            .usingAnyFreePort();
+            if (Capabilities.getInstance().getCapabilities().has("basePath")) {
+                if (!StringUtils.isBlank(getBasePath())) {
+                    builder.withArgument(GeneralServerFlag.BASEPATH,getBasePath());
+                }
+            } else {
+                builder.withArgument(GeneralServerFlag.BASEPATH,"/wd/hub");
+            }
+            appiumDriverLocalService = builder.build();
+            appiumDriverLocalService.start();
+            LOGGER.info(LOGGER.getName() + "Appium Server Started at......"
+                    + appiumDriverLocalService.getUrl());
+            setAppiumDriverLocalService(appiumDriverLocalService);
         }
-        appiumDriverLocalService = builder.build();
-        appiumDriverLocalService.start();
-        LOGGER.info(LOGGER.getName() + "Appium Server Started at......"
-                + appiumDriverLocalService.getUrl());
-        setAppiumDriverLocalService(appiumDriverLocalService);
     }
 
     /*private void getWindowsDevice(String platform, List<Device> devices) {

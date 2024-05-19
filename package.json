@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/AppiumTestDistribution/AppiumTestDistribution#readme",
   "dependencies": {
-    "appium": "^2.2.1"
+    "appium": "^2.5.4"
   },
   "typedoc": {
     "entryPoint": "lib/index.js"
@@ -29,8 +29,8 @@
   "devDependencies": {
     "vite": "^4.5.0",
     "@appium/docutils": "^0.4.11",
-    "appium-device-farm": "^8.4.7-rc.1",
-    "appium-uiautomator2-driver": "^2.29.5",
-    "appium-xcuitest-driver": "^5.8.2"
+    "appium-device-farm": "^8.4.7-rc.32",
+    "appium-uiautomator2-driver": "^3.2.0",
+    "appium-xcuitest-driver": "^7.15.1"
   }
 }

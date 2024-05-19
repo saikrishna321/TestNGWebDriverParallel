@@ -61,7 +61,7 @@
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <version>9.0.0</version>
+            <version>9.2.2</version>
         </dependency>
         <dependency>
             <groupId>net.lingala.zip4j</groupId>
