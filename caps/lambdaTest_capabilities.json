@@ -4,7 +4,7 @@
     "automationName": "UIAutomator2",
     "appiumVersion": "2.0",
     "appium:isRealMobile": true,
-    "appium:app": "lt://APP1016045801683541346785801",
+    "appium:app": "lt://APP1016029841714995818722118",
     "appium:build": "ATDDevs",
     "appium:project": "Appium Device Farm with ATD",
     "lt:options": {
