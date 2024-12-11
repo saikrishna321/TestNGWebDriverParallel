@@ -17,7 +17,6 @@ public class Runner {
     public static void testApp() throws Exception {
         List<String> tests = new ArrayList<>();
         tests.add("SliderTest");
-        tests.add("DragnDropTest");
         try {
             Path apps = FileSystems.getDefault().getPath("apps").toAbsolutePath();
             ZipFile zipFile = new ZipFile(apps.toFile() + "/WebDriverAgent-Test.zip");

@@ -8,11 +8,6 @@ import org.testng.annotations.Test;
 public class SliderTest extends UserBaseTest {
     @Test
     public void dragNDrop() {
-        try {
-            Thread.sleep(30000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         login("login").click();
         waitForElement("dragAndDrop").click();
         waitForElement("dragMe").click();
