@@ -1,5 +1,9 @@
 package com.test.site;
 
+import com.appium.manager.AppiumDriverManager;
+import org.openqa.selenium.json.JsonOutput;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 
