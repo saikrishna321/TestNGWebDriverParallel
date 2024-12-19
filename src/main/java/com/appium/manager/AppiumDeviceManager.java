@@ -24,7 +24,7 @@ public class AppiumDeviceManager {
 
 
     public static MobilePlatform getMobilePlatform() {
-        return MobilePlatform.valueOf(PluginClI.getInstance().getPlatFormName().toUpperCase());
+        return MobilePlatform.valueOf(System.getenv("Platform").toUpperCase());
     }
 
     public static boolean isPlatform(MobilePlatform expectedPlatform) throws IOException {

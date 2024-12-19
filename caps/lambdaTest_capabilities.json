@@ -1,14 +1,13 @@
 {
   "android": {
     "platformName": "Android",
-    "automationName": "UIAutomator2",
-    "appiumVersion": "2.0",
+    "appium:automationName": "UIAutomator2",
     "appium:isRealMobile": true,
-    "appium:app": "lt://APP10160161171698071075398330",
+    "appium:app": "lt://APP10160522181729493872480145",
     "appium:build": "ATDDevs",
     "appium:project": "Appium Device Farm with ATD",
     "lt:options": {
-      "w3c": true
+      "w3c": false
     }
   },
   "serverConfig": {
@@ -23,17 +22,12 @@
           "cloud":
             {
               "cloudName": "lambdatest",
-              "url": "https://mobile-hub.lambdatest.com/wd/hub",
+              "url": "https://mobile-hub.lambdatest.com",
               "devices": [
                 {
                   "platformVersion": "13",
                   "deviceName": "Pixel 7",
                   "platform": "android"
-                },
-                {
-                  "platform": "android",
-                  "deviceName": "Pixel 6",
-                  "platformVersion": "13"
                 }
               ]
             }

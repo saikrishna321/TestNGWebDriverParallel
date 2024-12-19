@@ -92,7 +92,7 @@ public class ATDRunner {
         createSnapshotDirectoryFor();
         String platform = getOverriddenStringValue("Platform");
         if (platform.equalsIgnoreCase("android")) {
-            if (!capabilities.getCapabilityObjectFromKey("android").has("automationName")) {
+            if (!capabilities.getCapabilityObjectFromKey("android").has("appium:automationName")) {
                 throw new IllegalArgumentException("Please set automationName "
                         + "as UIAutomator2 or Espresso to create Android driver");
             }

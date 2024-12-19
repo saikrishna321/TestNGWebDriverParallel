@@ -14,7 +14,7 @@
   },
   "serverConfig" : {
     "server": {
-      "use-plugins": ["device-farm", "element-wait"],
+      "use-plugins": ["device-farm"],
       "plugin": {
         "device-farm": {
           "platform": "iOS",

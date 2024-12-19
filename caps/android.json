@@ -25,5 +25,6 @@
     {
       "machineIP": "127.0.0.1"
     }
-  ]
+  ],
+  "appiumServerUrl" : "http://192.168.29.105:31337/wd/hub"
 }

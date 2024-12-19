@@ -19,7 +19,7 @@ public class DesiredCapabilityBuilder {
     private static final Logger LOGGER = Logger.getLogger(DesiredCapabilityBuilder.class.getName());
 
     public DesiredCapabilities buildDesiredCapability(String capabilityFilePath) {
-        String platform = PluginClI.getInstance().getPlatFormName();
+        String platform = System.getenv("Platform");
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         JSONObject platFormCapabilities;
         JSONObject fullCapabilities;

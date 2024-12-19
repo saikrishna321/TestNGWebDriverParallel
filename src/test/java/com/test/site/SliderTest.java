@@ -1,6 +1,9 @@
 package com.test.site;
 
-import io.appium.java_client.AppiumBy;
+import com.appium.manager.AppiumDriverManager;
+import org.openqa.selenium.json.JsonOutput;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 
@@ -9,6 +12,13 @@ import org.testng.annotations.Test;
 public class SliderTest extends UserBaseTest {
     @Test
     public void dragNDrop() {
+        login("login").click();
+        waitForElement("dragAndDrop").click();
+        waitForElement("dragMe").click();
+    }
+
+    @Test
+    public void dragNDrop1() {
         login("login").click();
         waitForElement("dragAndDrop").click();
         waitForElement("dragMe").click();

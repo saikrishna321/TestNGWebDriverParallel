@@ -2,6 +2,7 @@ package com.appium.manager;
 
 
 import com.annotation.values.SkipIf;
+import com.appium.plugin.PluginClI;
 import com.appium.utils.Helpers;
 import com.context.SessionContext;
 import com.context.TestExecutionContext;
@@ -59,11 +60,28 @@ public final class AppiumParallelTestListener extends Helpers
                     + annotation.platform());
         }
         queueBeforeInvocationListeners(iInvokedMethod, testResult, iTestNGListeners);
-        if (!iInvokedMethod.isTestMethod() && AppiumDriverManager.getDriver() == null) {
-            appiumDriverManager.startAppiumDriverInstanceWithUDID(
-                    iInvokedMethod.getTestMethod().getMethodName(), currentDeviceID.get());
+        if (AppiumDriverManager.getDriver() == null) {
+                appiumDriverManager.startAppiumDriverInstanceWithUDID(
+                        iInvokedMethod.getTestMethod().getMethodName(), currentDeviceID.get());
         }
-
+        if (AppiumDriverManager.getDriver() != null) {
+            if (AppiumDriverManager.getDriver().getSessionId() == null) {
+                appiumDriverManager.startAppiumDriverInstanceWithUDID(
+                        iInvokedMethod.getTestMethod().getMethodName(), currentDeviceID.get());
+            }
+        }
+        if(!PluginClI.getInstance().isCloudExecution()) {
+            try {
+                testLogger.startDeviceLogAndVideoCapture(testResult);
+                TestExecutionContext testExecutionContext =
+                        new TestExecutionContext(testResult.getTestName());
+                testExecutionContext.addTestState("appiumDriver", AppiumDriverManager.getDriver());
+                testExecutionContext.addTestState("deviceId",
+                        AppiumDeviceManager.getAppiumDevice().getUdid());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /*
@@ -74,6 +92,7 @@ public final class AppiumParallelTestListener extends Helpers
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
         SessionContext.remove(Thread.currentThread().getId());
         queueAfterInvocationListener(method, testResult, iTestNGListeners);
+        appiumDriverManager.stopAppiumDriver();
     }
 
 
@@ -123,16 +142,6 @@ public final class AppiumParallelTestListener extends Helpers
      */
     @Override
     public void onTestStart(ITestResult iTestResult) {
-        try {
-            testLogger.startDeviceLogAndVideoCapture(iTestResult);
-            TestExecutionContext testExecutionContext =
-                    new TestExecutionContext(iTestResult.getTestName());
-            testExecutionContext.addTestState("appiumDriver", AppiumDriverManager.getDriver());
-            testExecutionContext.addTestState("deviceId",
-                    AppiumDeviceManager.getAppiumDevice().getUdid());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /*
@@ -181,8 +190,6 @@ public final class AppiumParallelTestListener extends Helpers
     @Override
     public void onFinish(ITestContext iTestContext) {
         SessionContext.setReportPortalLaunchURL(iTestContext);
-        appiumDriverManager.stopAppiumDriver();
-
     }
 
     public static ITestNGMethod getTestMethod() {
