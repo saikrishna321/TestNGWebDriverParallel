@@ -84,6 +84,7 @@ public class AppiumServerManager {
                 builder.withArgument(GeneralServerFlag.BASEPATH,"/wd/hub");
             }
             appiumDriverLocalService = builder.build();
+            appiumDriverLocalService.clearOutPutStreams();
             appiumDriverLocalService.start();
             LOGGER.info(LOGGER.getName() + "Appium Server Started at......"
                     + appiumDriverLocalService.getUrl());
